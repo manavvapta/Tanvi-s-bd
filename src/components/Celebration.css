@@ -1,0 +1,81 @@
+.celebration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+
+/* Balloons: ek hi baar upar uthte hain */
+.balloon {
+  position: absolute;
+  bottom: -180px;
+  width: var(--s);
+  height: calc(var(--s) * 1.2);
+  border-radius: 50% 50% 48% 48%;
+  background:
+    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.85) 0 8%, transparent 20%),
+    var(--c);
+  box-shadow: inset -8px -10px 0 rgba(0, 0, 0, 0.07), 0 8px 18px rgba(194, 24, 91, 0.2);
+  opacity: 0.9;
+  animation:
+    floatUp var(--d) cubic-bezier(0.2, 0.7, 0.4, 1) var(--dl) 1 both,
+    sway 1s ease-in-out var(--dl) infinite alternate;
+}
+
+.balloon::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 1.5px;
+  height: 90px;
+  background: rgba(194, 24, 91, 0.45);
+  transform: translateX(-50%);
+}
+
+/* Confetti: ek baar girta hai */
+.confetti {
+  position: absolute;
+  top: -30px;
+  width: var(--w);
+  height: var(--h);
+  background: var(--c);
+  border-radius: 2px;
+  animation:
+    fall var(--d) ease-in var(--dl) 1 both,
+    spin var(--spin) linear var(--dl) infinite;
+}
+
+/* Emoji sparks: ek baar upar jaate hain */
+.spark {
+  position: absolute;
+  bottom: -40px;
+  font-size: 24px;
+  opacity: 0.9;
+  animation: floatUp var(--d) ease-out var(--dl) 1 both;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-125vh); }
+}
+
+@keyframes sway {
+  from { margin-left: -14px; }
+  to   { margin-left: 14px; }
+}
+
+@keyframes fall {
+  from { top: -30px; }
+  to   { top: 110vh; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .balloon, .confetti, .spark { animation: none; display: none; }
+}

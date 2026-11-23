@@ -5,34 +5,34 @@ import "./PhotoQuiz.css";
 const QUESTIONS = [
   {
     image: "t11.JPG",
-    question: "Ye photo dekh ke kya lagta hai?",
+    question: "Saste Nashe km kiya kar 😂",
     options: [
-      { label: "Sach mein cute hai 🥹", reply: "Haan, aur tum sabse cute ho 💕" },
-      { label: "Thoda ajeeb lag raha hai 😤", reply: "Ruko, main tumhe baad mein dekhta hoon 😏" },
-      { label: "Ye main hi hoon 🙈", reply: "Haan, aur yehi mera favourite hai 💖" },
+      { label: "Sach mein🥹", reply: "hannn 😁" },
+      { label: "Nhi😤", reply: "thik hai 😒" },
+      { label: "jesi hu wesi theek hu 🙈", reply: "👉👈💖" },
     ],
   },
   {
     image: "t12.JPG",
-    question: "Is din tum kya soch rahi thi?",
+    question: "Tumhari sabse kharab adat?",
     options: [
-      { label: "Pizza 🍕", reply: "Pizza ke liye bhi main hi le jaunga 😄" },
-      { label: "Mujhe 🥰", reply: "Pakka, main bhi tumhe hi soch raha tha 💕" },
-      { label: "Kuch nahi 🙄", reply: "Ye bahana nahi chalega, sach batao 😜" },
+      { label: "stikers 😭", reply: "👺" },
+      { label: "bat bat pr Backchodi😒", reply: "😡" },
+      { label: "Kuch nahi🙄", reply: "🙂" },
     ],
   },
   {
     image: "t13.JPG",
-    question: "Tum sabse zyada kya karti ho?",
+    question: "What u think. Why i'm liking you because?",
     options: [
-      { label: "Mujhe chidhati ho 😂", reply: "Bilkul, aur main bhi tumhe chidhata hoon 😌" },
-      { label: "Mujhse pyaar karti ho ❤️", reply: "Ye sach hai, aur ye hamesha rahega 💞" },
-      { label: "Sote rehti ho 😴", reply: "Ye sach hai, par tumhare sapne mein main aata hoon 😘" },
+      { label: "you r cuteeeeiiiii😻", reply: "nhi hai😽" },
+      { label: "you r understanding 🫶🏻", reply: "nhi hai💞" },
+      { label: "same habites✊", reply: "ji 👉👈" },
     ],
   },
 ];
 
-export default function PhotoQuiz() {
+export default function PhotoQuiz({ onFinish }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [finished, setFinished] = useState(false);
@@ -56,10 +56,10 @@ export default function PhotoQuiz() {
   if (finished) {
     return (
       <section className="glass quiz-card final">
-        <h2>Result 💖</h2>
-        <p>Tum sabse cute ho aur main tumhe hamesha chidhata rahunga 😄</p>
-        <button className="btn" onClick={() => { setIndex(0); setSelected(null); setFinished(false); }}>
-          Phir se khelo
+        <h2>many many returns of the day Bebe 💖</h2>
+        <p>One Last step let's fuck the Cake 🎂😄</p>
+        <button className="btn" onClick={onFinish}>
+          okiiiee 😚🎂
         </button>
       </section>
     );
