@@ -91,7 +91,7 @@ export default function PhotoQuiz({ onFinish }) {
         <div className="reply glass">
           <p>{selected.reply}</p>
           <button className="btn" onClick={next}>
-            {index + 1 >= QUESTIONS.length ? "Result dekho" : "Next ➜"}
+            {index + 1 >= QUESTIONS.length ? "next ? 😍" : "Next ➜"}
           </button>
         </div>
       )}

@@ -18,7 +18,7 @@ export default function HeartLoader({ onDone }) {
         </svg>
         <div className="fill" />
       </div>
-      <p className="loader-text">Loading your surprise babe...🥀</p>
+      <p className="loader-text">Loading Your Surprise Babe...♥️🥀</p>
     </div>
   );
 }

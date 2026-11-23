@@ -1,0 +1,124 @@
+/* ---------- Album layout (2x2 grid, screenshot jaisa) ---------- */
+.album-scroll-stage {
+  gap: 18px;
+}
+
+.album-scroll {
+  width: 100%;
+  max-width: 400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* ---------- Card ---------- */
+.polaroid {
+  margin: 0;
+  padding: 12px 12px 14px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 22px;
+  box-shadow: 0 10px 26px rgba(255, 77, 141, 0.18);
+  text-align: center;
+}
+
+.polaroid img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}
+
+.polaroid figcaption {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #c2185b;
+}
+
+/* ---------- Scroll reveal animation ---------- */
+.reveal {
+  opacity: 0;
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.reveal.from-left {
+  transform: translateX(-40px) rotate(-4deg);
+}
+
+.reveal.from-right {
+  transform: translateX(40px) rotate(4deg);
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Typing intro ---------- */
+.typing-text {
+  max-width: 340px;
+  padding: 16px 18px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--pink-700);
+  min-height: 80px;
+  text-align: center;
+}
+
+.typing-caret {
+  display: inline-block;
+  margin-left: 2px;
+  animation: typing-blink 0.9s steps(2) infinite;
+}
+
+@keyframes typing-blink {
+  50% { opacity: 0; }
+}
+
+/* ---------- Photo missing fallback ---------- */
+.photo-missing {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 14px;
+  background: var(--pink-100);
+  color: var(--pink-700);
+  font-size: 12px;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* ---------- Hint text ---------- */
+.end-hint {
+  font-size: 15px;
+  color: var(--pink-700);
+}
+
+/* ---------- Dodge button ---------- */
+.dodge-zone {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  height: 110px;
+}
+
+.dodge-btn {
+  position: absolute;
+  white-space: nowrap;
+  transition: left 0.35s ease, top 0.35s ease, transform 0.2s ease;
+}
+
+.dodge-btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    transform: none;
+  }
+}
