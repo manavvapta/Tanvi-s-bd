@@ -67,7 +67,7 @@ export default function App() {
         onClick={togglePlay}
         aria-label={playing ? "Song pause karo" : "Song chalao"}
       >
-        {playing ? "⏸ Pause" : "🎵 Song chalao"}
+        {playing ? "⏸ Pause" : "Your Song ♥️🎵 "}
       </button>
 
       {loadError && (

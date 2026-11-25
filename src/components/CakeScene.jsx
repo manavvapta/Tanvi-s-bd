@@ -251,6 +251,8 @@ function MessageStage() {
             {line}
           </p>
         ))}
+
+        {done && <p className="letter-sign">~Manav 🍁</p>}
       </div>
       {done && <p className="the-end">The End 💖</p>}
     </div>

@@ -316,6 +316,15 @@
   max-width: 460px;
   text-align: left;
 }
+/* ---------- Letter signature ---------- */
+.letter-sign {
+  margin-top: 10px;
+  text-align: right;
+  font-family: "Pacifico", cursive;
+  font-size: 20px;
+  color: var(--pink-700);
+  animation: cake-rise 0.8s ease both;
+}
 
 .dodge-btn {
   position: absolute;

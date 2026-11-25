@@ -1,48 +1,74 @@
 .loader {
-  position: fixed; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 24px;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   background: linear-gradient(160deg, #fff5f8, #ffd1e3);
   z-index: 100;
   transition: opacity 0.5s ease;
 }
-.loader.fade-out { opacity: 0; pointer-events: none; }
+
+.loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .heart-wrap {
   position: relative;
-  width: 110px; height: 110px;
+  width: 110px;
+  height: 110px;
   animation: pulse 1.2s ease-in-out infinite;
 }
 
 .heart {
-  width: 100%; height: 100%;
-  fill: rgba(255, 255, 255, 0.5);
-  stroke: var(--pink-500);
-  stroke-width: 0.6;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   filter: drop-shadow(0 6px 16px rgba(255, 77, 141, 0.35));
 }
 
-/* Heart ke andar pink fill upar uthta hai, jaise loading */
-.fill {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  height: 0;
-  background: linear-gradient(to top, var(--pink-700), var(--pink-300));
-  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21s-7.5-4.6-9.5-9.1C1 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23 8.6 21.5 11.9 19.5 16.4 12 21 12 21z'/></svg>") center / contain no-repeat;
-          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21s-7.5-4.6-9.5-9.1C1 8.6 3 5 6.5 5c2 0 3.5 1.2 5.5 3.2C14 6.2 15.5 5 17.5 5 21 5 23 8.6 21.5 11.9 19.5 16.4 12 21 12 21z'/></svg>") center / contain no-repeat;
+.heart-base {
+  fill: rgba(255, 255, 255, 0.5);
+}
+
+/* Shuru mein fill heart se neeche hota hai (translateY 24 = bahar), phir 0 par aata hai */
+.heart-fill {
+  transform: translateY(24px);
   animation: fillUp 2.4s ease-in-out forwards;
+}
+
+.heart-outline {
+  fill: none;
+  stroke: var(--pink-500);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
 }
 
 .loader-text {
   color: var(--pink-700);
-  font-size: 15px; letter-spacing: 0.5px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
   opacity: 0.8;
 }
 
 @keyframes fillUp {
-  from { height: 0; }
-  to   { height: 100%; }
+  to {
+    transform: translateY(0);
+  }
 }
+
 @keyframes pulse {
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heart-wrap,
+  .heart-fill {
+    animation: none;
+    transform: none;
+  }
 }
