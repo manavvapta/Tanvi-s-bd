@@ -1,7 +1,5 @@
-
 import { useEffect, useRef, useState } from "react";
 import Celebration from "./Celebration.jsx";
-import useMicBlow from "../hooks/useMicBlow.js";
 import Album from "./Album.jsx";
 import "./CakeScene.css";
 
@@ -67,31 +65,18 @@ function WishesStage({ onDone }) {
   );
 }
 
-/* ---------- Stage 2: Candles (hold game + mic blow) ---------- */
+/* ---------- Stage 2: Candles (hold game) ---------- */
 function CandleStage({ onDone }) {
   const [lit, setLit] = useState([true, true, true]);
   const [charge, setCharge] = useState(0);
   const [holding, setHolding] = useState(false);
   const [relit, setRelit] = useState(false);
-  const [msg, setMsg] = useState("Turn on your mic or press and hold to blow 💨");
+  const [msg, setMsg] = useState("Press and hold the button to blow 💨");
   const [finished, setFinished] = useState(false);
 
   const target = lit.indexOf(true);
 
-  // The first lit candle goes out when the mic detects a blow
-  const blowOut = () => {
-    setLit((prev) => {
-      const t = prev.indexOf(true);
-      if (t === -1) return prev;
-      const next = [...prev];
-      next[t] = false;
-      return next;
-    });
-  };
-
-  const mic = useMicBlow({ onBlow: blowOut });
-
-  // Hold game: Keep the button pressed to build up breath
+  // Hold game: button dabaye rakho, breath bharega
   useEffect(() => {
     if (!holding || target === -1) return;
     const id = setInterval(() => {
@@ -100,7 +85,7 @@ function CandleStage({ onDone }) {
     return () => clearInterval(id);
   }, [holding, target]);
 
-  // The candle goes out when the breath meter is full
+  // Breath full hone par candle bujh jaati hai
   useEffect(() => {
     if (charge < 100 || target === -1) return;
     setLit((prev) => prev.map((on, i) => (i === target ? false : on)));
@@ -108,7 +93,7 @@ function CandleStage({ onDone }) {
     setHolding(false);
   }, [charge, target]);
 
-  // Candle 2 lights up once again as a little surprise
+  // Candle 2 ek baar phir jal jaati hai (surprise), sirf ek baar
   useEffect(() => {
     if (relit || lit[0] || lit[1]) return;
     const t = setTimeout(() => {
@@ -119,13 +104,11 @@ function CandleStage({ onDone }) {
     return () => clearTimeout(t);
   }, [lit, relit]);
 
-  // All candles are out: game completed
+  // Sab candles bujh gayi: game khatam
   useEffect(() => {
     if (lit.some(Boolean)) return;
     setMsg("Your wish is on its way! 🎉 Now it's time to cut the cake 🫶🏻");
     setFinished(true);
-    mic.stop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lit]);
 
   const stopHolding = () => {
@@ -154,20 +137,6 @@ function CandleStage({ onDone }) {
           >
             💨 Press and hold to blow
           </button>
-
-          {mic.status === "idle" && (
-            <button className="btn ghost" onClick={mic.start}>
-              🎤 Blow using microphone
-            </button>
-          )}
-          {mic.status === "asking" && <p className="mic-note">Waiting for microphone permission...</p>}
-          {mic.status === "on" && <p className="mic-note">🎤 Microphone is on. Blow now!</p>}
-          {mic.status === "denied" && (
-            <p className="mic-note">Microphone access denied. Use the hold button instead 💕</p>
-          )}
-          {mic.status === "unsupported" && (
-            <p className="mic-note">Your browser does not support microphone access. Please use the hold button.</p>
-          )}
         </>
       )}
 
