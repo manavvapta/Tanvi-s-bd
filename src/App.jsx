@@ -5,58 +5,74 @@ import BirthdayPage from "./components/BirthdayPage.jsx";
 
 export default function App() {
   const [stage, setStage] = useState("loading"); // loading | locked | unlocked
-  const [muted, setMuted] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const audioRef = useRef(null);
 
-  // Pehla tap/click/key press hote hi song start ho jaayega
-  useEffect(() => {
-    const startMusic = () => {
-      const audio = audioRef.current;
-      if (audio && audio.paused) {
-        audio.play().catch(() => {});
-      }
-    };
-
-    window.addEventListener("pointerdown", startMusic, { once: true });
-    window.addEventListener("keydown", startMusic, { once: true });
-
-    return () => {
-      window.removeEventListener("pointerdown", startMusic);
-      window.removeEventListener("keydown", startMusic);
-    };
-  }, []);
-
-  // Agar tab change karke wapas aaye aur song ruk gaya ho, toh dobara chalao
-  useEffect(() => {
-    const resume = () => {
-      const audio = audioRef.current;
-      if (document.visibilityState === "visible" && audio && audio.paused && !muted) {
-        audio.play().catch(() => {});
-      }
-    };
-    document.addEventListener("visibilitychange", resume);
-    return () => document.removeEventListener("visibilitychange", resume);
-  }, [muted]);
-
-  const toggleMute = () => {
+  const playSong = () => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.muted = !audio.muted;
-    setMuted(audio.muted);
+    audio.play().catch(() => setPlaying(false));
   };
+
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) playSong();
+    else audio.pause();
+  };
+
+  // Pehle user tap par bhi koshish karo, jab tak song na chale
+  useEffect(() => {
+    const tryPlay = () => {
+      const audio = audioRef.current;
+      if (audio && audio.paused) playSong();
+    };
+    const events = ["click", "touchend", "keydown"];
+    events.forEach((e) => window.addEventListener(e, tryPlay));
+    return () => events.forEach((e) => window.removeEventListener(e, tryPlay));
+  }, []);
+
+  // Audio ka asli state (play/pause) sync rakho
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    audio.addEventListener("play", onPlay);
+    audio.addEventListener("pause", onPause);
+    return () => {
+      audio.removeEventListener("play", onPlay);
+      audio.removeEventListener("pause", onPause);
+    };
+  }, []);
 
   return (
     <>
       {/* Audio hamesha mounted rehta hai, isliye stage change hone par bhi nahi rukta */}
-      <audio ref={audioRef} src="/song.mp3" loop preload="auto" />
+      <audio
+        ref={audioRef}
+        src="/song.mp3"
+        loop
+        preload="auto"
+        onError={() => setLoadError(true)}
+      />
 
       {stage === "loading" && <HeartLoader onDone={() => setStage("locked")} />}
       {stage === "locked" && <LockScreen onUnlock={() => setStage("unlocked")} />}
       {stage === "unlocked" && <BirthdayPage />}
 
-      <button className="mute-btn glass" onClick={toggleMute} aria-label="Mute toggle">
-        {muted ? "🔇" : "🎵"}
+      <button
+        className="music-toggle glass"
+        onClick={togglePlay}
+        aria-label={playing ? "Song pause karo" : "Song chalao"}
+      >
+        {playing ? "⏸ Pause" : "🎵 Song chalao"}
       </button>
+
+      {loadError && (
+        <p className="music-error">Song load nahi hua, net check karo</p>
+      )}
     </>
   );
 }

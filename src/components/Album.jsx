@@ -39,7 +39,7 @@ export default function Album({ onDone }) {
 
   return (
     <div className="stage album-scroll-stage">
-      <h2 className="stage-title">Our Memories 📸</h2>
+      <h2 className="stage-title">Your Memories 📸</h2>
 
       <TypingText text={INTRO_TEXT} />
 
